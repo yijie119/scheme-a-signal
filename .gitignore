@@ -1,0 +1,10 @@
+# Never commit personal portfolio data, tokens, or local caches!
+portfolio_state.json
+*portfolio*.json
+*trade_log*.csv
+.env
+.env.*
+__pycache__/
+*.pyc
+.DS_Store
+Thumbs.db

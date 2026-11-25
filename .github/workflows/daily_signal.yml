@@ -1,0 +1,109 @@
+name: Daily Scheme A Signal & Pages Deploy (07:30 JST)
+
+on:
+  push:
+    branches: ["main"]
+  schedule:
+    # Mon-Fri 07:30 JST = Sun-Thu 22:30 UTC (after US close, 90 min before Tokyo open)
+    - cron: '30 22 * * 0-4'
+    # Backup refresh Mon-Fri 08:15 JST = Sun-Thu 23:15 UTC
+    - cron: '15 23 * * 0-4'
+  workflow_dispatch:
+    inputs:
+      asof:
+        description: 'Optional JST date YYYY-MM-DD (leave empty for today JST)'
+        required: false
+        default: ''
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages-deploy"
+  cancel-in-progress: false
+
+jobs:
+  update-and-build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Generate latest Scheme A public signal JSON
+        env:
+          INPUT_ASOF: ${{ github.event.inputs.asof }}
+        run: |
+          if [ -n "$INPUT_ASOF" ]; then
+            python scripts/update_signal.py --asof "$INPUT_ASOF" --out docs/signal_latest.json
+          else
+            python scripts/update_signal.py --out docs/signal_latest.json
+          fi
+
+      - name: Optional rebalance-day webhook notification
+        if: env.NOTIFY_WEBHOOK != '' && github.event_name != 'push'
+        env:
+          NOTIFY_WEBHOOK: ${{ secrets.NOTIFY_WEBHOOK }}
+          PAGES_URL: ${{ secrets.PAGES_URL }}
+        run: |
+          python - <<'PY'
+          import json, os, urllib.request
+          data = json.load(open("docs/signal_latest.json", encoding="utf-8"))
+          p = data["presets"]["A_1579"]
+          if p["is_rebal_today"] or data["warnings"]:
+              w = ", ".join(f"{k}:{v*100:.1f}%" for k, v in p["target_weights"].items())
+              tag = "切片A" if data["calendar"]["is_tranche_a_day"] else "切片B"
+              msg = f"【方案A {tag} 调仓日】{data['asof_date']}\n目标仓位: {w}, 现金:{p['target_cash']*100:.1f}%"
+              if data["warnings"]:
+                  msg += "\n⚠️ " + " | ".join(data["warnings"])
+              if os.environ.get("PAGES_URL"):
+                  msg += f"\n打开手机计算器: {os.environ['PAGES_URL']}"
+              payload = json.dumps({"content": msg, "text": msg, "msgtype": "text", "title": "方案A 调仓提醒"}).encode("utf-8")
+              req = urllib.request.Request(os.environ["NOTIFY_WEBHOOK"], data=payload, headers={"Content-Type": "application/json"})
+              urllib.request.urlopen(req, timeout=15)
+              print("Sent rebalance notification.")
+          else:
+              print("Not a rebalance day; skipped notification.")
+          PY
+
+      - name: Commit updated signal_latest.json to main
+        if: github.event_name != 'push'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/signal_latest.json
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "chore: update Scheme A signal ($(TZ=Asia/Tokyo date '+%Y-%m-%d %H:%M JST'))"
+            git push
+          fi
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload docs artifact for GitHub Pages
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: './docs'
+
+  deploy-pages:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: update-and-build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
