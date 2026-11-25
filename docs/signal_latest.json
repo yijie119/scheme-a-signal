@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "generated_at_jst": "2026-11-25 16:40 JST",
+  "generated_at_jst": "2026-11-25 17:24 JST",
   "asof_date": "2026-11-25",
-  "data_source": "offline_cache",
+  "data_source": "yahoo_live",
   "last_tokyo_date": "2026-11-24",
   "last_us_date": "2026-11-24",
   "calendar": {
@@ -73,19 +73,19 @@
   },
   "latest_prices": {
     "1579": {
-      "price": 548.8,
+      "price": 548.2,
       "date": "2026-11-25",
-      "chg_1d": -0.050026
+      "chg_1d": -0.051065
     },
     "1458": {
-      "price": 60720.0,
+      "price": 60600.0,
       "date": "2026-11-25",
-      "chg_1d": -0.049765
+      "chg_1d": -0.051643
     },
     "1321": {
-      "price": 595.4,
+      "price": 595.0,
       "date": "2026-11-25",
-      "chg_1d": -0.024254
+      "chg_1d": -0.02491
     },
     "1545": {
       "price": 208.0,
@@ -93,9 +93,9 @@
       "chg_1d": -0.034355
     },
     "314A": {
-      "price": 267.0,
+      "price": 266.1,
       "date": "2026-11-25",
-      "chg_1d": -0.020543
+      "chg_1d": -0.023844
     }
   },
   "presets": {
