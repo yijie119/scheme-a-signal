@@ -701,6 +701,28 @@
       <label class="chk-item"><input type="checkbox" /> 买单挂指値，绝不用成行</label>
       <label class="chk-item"><input type="checkbox" /> 同日不卖→买→卖(差金決済)</label>
     </div>
+    <div style="margin-top:8px;padding:8px 10px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;font-size:12px;color:#166534;">
+      💡 <strong>现金底仓规则：</strong>闲置与防御日元直接留 <strong>SBI ハイパー預金（约 0.50%～0.60%）</strong> 自动计息（零风险、零点差、T+0 买付余力），空仓绝不买债 ETF。
+    </div>
+  </div>
+
+  <!-- ALGORITHM FLOWCHART REFERENCE -->
+  <div class="card">
+    <details id="flowchartDetails">
+      <summary style="font-size:14.5px;font-weight:800;cursor:pointer;display:flex;justify-content:space-between;align-items:center;list-style:none;">
+        <span>🗺️ 算法逻辑与操作全流程图 (A4高清)</span>
+        <span class="small-muted">展开 ▾</span>
+      </summary>
+      <div style="margin-top:10px;">
+        <a href="./scheme_a_logic_flowchart_a4.png" target="_blank" rel="noopener" style="display:block;border-radius:10px;overflow:hidden;border:1px solid #cbd5e1;background:#f8fafc;">
+          <img src="./scheme_a_logic_flowchart_a4.png" loading="lazy" alt="方案 A 算法逻辑与实盘操作全流程图" style="width:100%;height:auto;display:block;" />
+        </a>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px;">
+          <a class="btn btn-primary" href="./scheme_a_logic_flowchart_a4.png" target="_blank" rel="noopener" style="text-decoration:none;padding:9px;font-size:12.5px;">🔍 高清大图缩放</a>
+          <a class="btn btn-outline" href="./scheme_a_logic_flowchart_a4.png" download="scheme_a_logic_flowchart_a4.png" style="text-decoration:none;padding:9px;font-size:12.5px;">⬇️ 下载 A4 原图</a>
+        </div>
+      </div>
+    </details>
   </div>
 
   <!-- TRADE HISTORY -->
@@ -1141,7 +1163,7 @@
       <div class="t-pill">
         <div class="code">JPY 现金</div>
         <div class="pct" style="color:#475569">${(p.target_cash * 100).toFixed(1)}%</div>
-        <div class="sub">避险底仓</div>
+        <div class="sub">ハイパー預金</div>
       </div>`;
     $("allocBar").innerHTML = barHtml;
     $("targetGrid").innerHTML = gridHtml;
