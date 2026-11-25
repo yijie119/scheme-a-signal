@@ -1,15 +1,15 @@
 {
   "schema_version": 1,
-  "generated_at_jst": "2026-11-25 17:24 JST",
-  "asof_date": "2026-11-25",
+  "generated_at_jst": "2026-11-26 08:19 JST",
+  "asof_date": "2026-11-26",
   "data_source": "yahoo_live",
-  "last_tokyo_date": "2026-11-24",
-  "last_us_date": "2026-11-24",
+  "last_tokyo_date": "2026-11-25",
+  "last_us_date": "2026-11-25",
   "calendar": {
     "cur_month": "2026-11",
-    "today_td_num": 16,
+    "today_td_num": 17,
     "is_tse_open_today": true,
-    "today_weekday": "周三",
+    "today_weekday": "周四",
     "is_tranche_a_day": false,
     "is_tranche_b_day": false,
     "tranche_b_label": "2026-11 第10交易日收盘 (本月切片B)"
@@ -110,11 +110,11 @@
       "is_rebal_today": false,
       "next_rebal": {
         "is_tse_open_today": true,
-        "today_weekday": "周三",
+        "today_weekday": "周四",
         "next_rebal_date": "2026-12-01",
         "next_rebal_weekday": "周二",
         "next_rebal_label": "切片 A（下月第1交易日）",
-        "trading_days_until_next": 4
+        "trading_days_until_next": 3
       },
       "target_weights": {
         "1579": 0.157054,
@@ -227,11 +227,11 @@
       "is_rebal_today": false,
       "next_rebal": {
         "is_tse_open_today": true,
-        "today_weekday": "周三",
+        "today_weekday": "周四",
         "next_rebal_date": "2026-12-01",
         "next_rebal_weekday": "周二",
         "next_rebal_label": "切片 A（下月第1交易日）",
-        "trading_days_until_next": 4
+        "trading_days_until_next": 3
       },
       "target_weights": {
         "1458": 0.156606,
@@ -344,11 +344,11 @@
       "is_rebal_today": false,
       "next_rebal": {
         "is_tse_open_today": true,
-        "today_weekday": "周三",
+        "today_weekday": "周四",
         "next_rebal_date": "2026-12-01",
         "next_rebal_weekday": "周二",
         "next_rebal_label": "月度调仓（下月第1交易日）",
-        "trading_days_until_next": 4
+        "trading_days_until_next": 3
       },
       "target_weights": {
         "1321": 0.480348,
